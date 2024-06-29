@@ -19,7 +19,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: dockerfile_server
     container_name: game_server_container
     depends_on:
       - db
