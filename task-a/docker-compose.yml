@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: dockerfile_server
-    container_name: game_server_container
+    container_name: server_container
     depends_on:
       - db
     ports:
