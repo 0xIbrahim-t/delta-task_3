@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    build: 
+      context: .
+      dockerfile: dockerfile_db
+    container_name: db_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: game_db
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: game_server_container
+    depends_on:
+      - db
+    ports:
+      - "6000:6000"
+      
+volumes:
+  db_data:
