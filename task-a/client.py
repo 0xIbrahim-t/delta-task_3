@@ -1,4 +1,5 @@
 import socket
+import hashlib
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(("127.0.0.1", 6000))
@@ -12,21 +13,25 @@ while True:
     print("3. exit")
     message = input(">")
     if message == "1":
+        hashed = hashlib.new("SHA256")
         username = input("Enter your username: ")
-        password = input ("Enter your password: ")
+        password = input("Enter your password: ")
+        hashed.update(password.encode())
         client.send(f"login,{username}".encode("utf-8"))
         passw = client.recv(1024).decode("utf-8")
-        if password == passw:
+        if hashed.hexdigest() == passw:
             connected = True
             break
         else :
             print("Incorrect password!")
 
     elif message == "2":
+        hashed = hashlib.new("SHA256")
         username = input("Enter your username(less than 10 char): ")
         password = input ("Enter your password: ")
+        hashed.update(password.encode())
         if len(username) < 10:
-            client.send(f"signup,{username},{password}".encode("utf-8"))
+            client.send(f"signup,{username},{hashed.hexdigest()}".encode("utf-8"))
             print(client.recv(1024).decode("utf-8"))
         else :
             print("should have username less than 10 characters")
@@ -78,7 +83,7 @@ while connected:
         option_d = input("enter option d: ")
         correct_answer = input("enter the correct option (eg: a): ")
         client.send(f"{add_question};{option_a};{option_b};{option_c};{option_d};{correct_answer}".encode("utf-8"))
-# players = name,points; name,points
+# players = name,points;name,points
     elif choice == 3:
         client.send("leaderboard".encode("utf-8"))
         full_info_players = ""
