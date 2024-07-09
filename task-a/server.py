@@ -62,8 +62,18 @@ def client(connection, address):
 
         elif message.split(",")[0] == "question":
             QA = connection.recv(1024).decode("utf-8")
-            mycursor.execute(f'INSERT INTO QA (questions, questionby, answeredby) Values ("{QA}", "{message.split(",")[1]}", "")')
+            mycursor.execute(f'INSERT INTO QA (question, questionby, answeredby) Values ("{QA}", "{message.split(",")[1]}", "")')
             mydb.commit()
+
+        elif message == "leaderboard":
+            leaderboard_msg = ""
+            mycursor.execute("SELECT username FROM users ORDER BY points DESC")
+            usernames_leaderboard = mycursor.fetchall()
+            for username_leaderboard in usernames_leaderboard:
+                mycursor.execute(f'SELECT points FROM users WHERE username = "{username_leaderboard}"')
+                g = mycursor.fetchone()[0]
+                leaderboard_msg += username_leaderboard[0] + "," + str(g) + ";"
+            connection.sendall(leaderboard_msg[0:-1].encode("utf-8"))
 
     connection.close()
         
