@@ -21,7 +21,7 @@ def client(connection, address):
             break
 
         elif message.split(",")[0] == "login":
-            mycursor.execute(f'SELECT password FROM users WHERE username = "{message.split(",")[1]}"')
+            mycursor.execute('SELECT password FROM users WHERE username = %s', (message.split(",")[1],))
             password = mycursor.fetchone()
             if not password:
                 connection.send("incorrect".encode("utf-8"))
@@ -35,7 +35,7 @@ def client(connection, address):
             if message.split(",")[1] in usernames:
                 connection.send("username already exists".encode("utf-8"))
             else :
-                mycursor.execute(f'INSERT INTO users (username, password, points) Values ("{message.split(",")[1]}", "{message.split(",")[2]}"), 0')
+                mycursor.execute('INSERT INTO users (username, password, points) VALUES (%s, %s, %s)', (message.split(",")[1], message.split(",")[2], 0))
                 mydb.commit()
                 connection.send("Successfully signed up, you can now use that username and password to login to the game server!".encode("utf-8"))
 
