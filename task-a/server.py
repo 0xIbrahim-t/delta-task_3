@@ -22,8 +22,11 @@ def client(connection, address):
 
         elif message.split(",")[0] == "login":
             mycursor.execute(f'SELECT password FROM users WHERE username = "{message.split(",")[1]}"')
-            password = mycursor.fetchone()[0]
-            connection.send(password.encode("utf-8"))
+            password = mycursor.fetchone()
+            if not password:
+                connection.send("incorrect".encode("utf-8"))
+            else:
+                connection.send(password[0].encode("utf-8"))
 
         elif message.split(",")[0] == "signup":
             mycursor.execute(f'SELECT username FROM users')
