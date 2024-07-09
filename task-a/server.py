@@ -17,18 +17,21 @@ def client(connection, address):
 
         if message == "exit":
             connected = False
-            mycursor.close()
+            mydb().close()
             break
 
         elif message.split(",")[0] == "login":
+            mycursor = mydb.cursor()
             mycursor.execute('SELECT password FROM users WHERE username = %s', (message.split(",")[1],))
             password = mycursor.fetchone()
-            if not password:
+            if password is None:
                 connection.send("incorrect".encode("utf-8"))
             else:
                 connection.send(password[0].encode("utf-8"))
+            mycursor.close()
 
         elif message.split(",")[0] == "signup":
+            mycursor = mydb.cursor()
             mycursor.execute(f'SELECT username FROM users')
             usernames = mycursor.fetchall()
             usernames = [q[0] for q in usernames]
@@ -38,15 +41,21 @@ def client(connection, address):
                 mycursor.execute('INSERT INTO users (username, password, points) VALUES (%s, %s, %s)', (message.split(",")[1], message.split(",")[2], 0))
                 mydb.commit()
                 connection.send("Successfully signed up, you can now use that username and password to login to the game server!".encode("utf-8"))
-
+            mycursor.close()
+            
         elif message.split(",")[0] == "answer":
+            mycursor = mydb.cursor()
             msg = ""
             mycursor.execute(f"SELECT question FROM QA where questionby != '{message.split(",")[1]}'")
             questions = mycursor.fetchall()
 
             for question in questions:
                 mycursor.execute(f'SELECT answeredby FROM QA WHERE question = "{question[0]}"')
-                answeredby = mycursor.fetchone()[0].split(",")
+                answeredby = mycursor.fetchone()
+                if answeredby is None:
+                    answeredby = []
+                else:
+                    answeredby = answeredby[0].split(",")
                 if message.split(",")[1] not in answeredby:
                     msg += question[0]
                     msg += "~"
@@ -62,21 +71,29 @@ def client(connection, address):
             updated = mycursor.fetchone()[0] + "," + message.split(",")[1]
             mycursor.execute(f'UPDATE QA SET answeredby = {updated} WHERE question = "{choice.split(",")[1]}"')
             mydb.commit()
+            mycursor.close()
 
         elif message.split(",")[0] == "question":
+            mycursor = mydb.cursor()
             QA = connection.recv(1024).decode("utf-8")
             mycursor.execute(f'INSERT INTO QA (question, questionby, answeredby) Values ("{QA}", "{message.split(",")[1]}", "")')
             mydb.commit()
+            mycursor.close()
 
         elif message == "leaderboard":
+            mycursor = mydb.cursor()
             leaderboard_msg = ""
             mycursor.execute("SELECT username FROM users ORDER BY points DESC")
             usernames_leaderboard = mycursor.fetchall()
-            for username_leaderboard in usernames_leaderboard:
-                mycursor.execute(f'SELECT points FROM users WHERE username = "{username_leaderboard}"')
-                g = mycursor.fetchone()[0]
-                leaderboard_msg += username_leaderboard[0] + "," + str(g) + ";"
+            if usernames_leaderboard is None:
+                leaderboard_msg = ""
+            else:
+                for username_leaderboard in usernames_leaderboard:
+                    mycursor.execute(f'SELECT points FROM users WHERE username = "{username_leaderboard}"')
+                    g = mycursor.fetchone()[0]
+                    leaderboard_msg += username_leaderboard[0] + "," + str(g) + ";"
             connection.sendall(leaderboard_msg[0:-1].encode("utf-8"))
+            mycursor.close()
 
     connection.close()
         
