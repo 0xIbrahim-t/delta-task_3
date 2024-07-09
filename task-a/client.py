@@ -21,14 +21,16 @@ while True:
             break
         else :
             print("Incorrect password!")
+
     elif message == "2":
         username = input("Enter your username(less than 10 char): ")
         password = input ("Enter your password: ")
         if len(username) < 10:
             client.send(f"signup,{username},{password}".encode("utf-8"))
-            print("Successfully signed up, you can now use that username and password to login to the game server!")
+            print(client.recv(1024).decode("utf-8"))
         else :
-            print("have username less than 10 characters")
+            print("should have username less than 10 characters")
+
     else:
         client.send("exit".encode("utf-8"))
         break
@@ -40,11 +42,11 @@ while connected:
     print("3. leaderboard")
     print("4. exit")
     choice = input(">")
-#format = question_1,question_2 //// question_1 = question;a;b;c;d;correct
+#format = question_1~question_2 //// question_1 = question;a;b;c;d;correct
     if choice == 1:
         client.send(f"answer,{username}".encode("utf-8"))
         questions = client.recv(1024).decode("utf-8")
-        question_answer = questions.split(",")
+        question_answer = questions.split("~")
 
         y=0
 
@@ -60,16 +62,16 @@ while connected:
             option = input("choose an option")
         
         if option == question_answer.split(";")[5] :
-            client.send(f"correct".encode("utf-8"))
+            client.send(f"correct,{question_answer}".encode("utf-8"))
             print("you answered it right!!!")
         
         else:
-            client.send(f"wrong".encode("utf-8"))
+            client.send(f"wrong,{question_answer}".encode("utf-8"))
             print("sadly it was wrong :( tho")
 
     elif choice == 2:
         client.send(f"question,{username}".encode("utf-8"))
-        add_question = input("enter the question: ")
+        add_question = input("enter the question(please do not use ~ or ; in the questions): ")
         option_a = input("enter option a: ")
         option_b = input("enter option b: ")
         option_c = input("enter option c: ")
