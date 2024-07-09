@@ -22,6 +22,8 @@ while True:
         if hashed.hexdigest() == passw:
             connected = True
             break
+        if passw == "incorrect":
+            print("username does not exist")
         else :
             print("Incorrect password!")
 
