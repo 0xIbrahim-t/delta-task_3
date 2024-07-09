@@ -5,7 +5,7 @@ import threading
 mydb = mysql.connector.connect(host="db", db="game_db", user="username", password="password")
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((socket.gethostbyname(socket.gethostname())), 6000)
+server_socket.bind((socket.gethostbyname(socket.gethostname()), 6000))
 server_socket.listen()
 
 def client(connection, address):
