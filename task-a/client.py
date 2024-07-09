@@ -50,7 +50,7 @@ while connected:
     print("4. exit")
     choice = input(">")
 #format = question_1~question_2 //// question_1 = question;a;b;c;d;correct
-    if choice == 1:
+    if choice == "1":
         client.send(f"answer,{username}".encode("utf-8"))
         questions = client.recv(1024).decode("utf-8")
         question_answer = questions.split("~")
@@ -76,7 +76,7 @@ while connected:
             client.send(f"wrong,{question_answer}".encode("utf-8"))
             print("sadly it was wrong :( tho")
 
-    elif choice == 2:
+    elif choice == "2":
         client.send(f"question,{username}".encode("utf-8"))
         add_question = input("enter the question(please do not use ~ or ; in the questions): ")
         option_a = input("enter option a: ")
@@ -86,7 +86,7 @@ while connected:
         correct_answer = input("enter the correct option (eg: a): ")
         client.send(f"{add_question};{option_a};{option_b};{option_c};{option_d};{correct_answer}".encode("utf-8"))
 # players = name,points;name,points
-    elif choice == 3:
+    elif choice == "3":
         client.send("leaderboard".encode("utf-8"))
         full_info_players = ""
         while True:
@@ -101,7 +101,7 @@ while connected:
             line = str(a) + " "*(7 - len(str(a))) + player[0] + " "*(10 - len(player[0])) + player[1]
             print(line)
     
-    elif choice == 4:
+    elif choice == "4":
         client.send("exit".encode("utf-8"))
         break
     else :
