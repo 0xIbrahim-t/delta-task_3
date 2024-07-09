@@ -4,7 +4,7 @@ USE game_db;
 
 CREATE USER IF NOT EXISTS 'username' IDENTIFIED BY 'password';
 
-GRANT SELECT ON game_db.* TO 'username';
+GRANT ALL ON game_db.* TO 'username'@'%';
 FLUSH PRIVILEGES;
 
 create table users (username VARCHAR(10), password VARCHAR(1024), points INT);
