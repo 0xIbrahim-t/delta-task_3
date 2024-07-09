@@ -63,7 +63,7 @@ while connected:
         print(f"Question : {question_answer.split(';')[0][question_no - 1]}")
 
         for v in range(1, 5):
-            print(f"option {['a','b','c','d'][v - 1]} - {question_answer.split(";")[v]}")
+            print(f"option {['a','b','c','d'][v - 1]} - {question_answer.split(';')[v]}")
             option = input("choose an option")
         
         if option == question_answer.split(";")[5] :
