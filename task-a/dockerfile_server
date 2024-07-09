@@ -2,6 +2,6 @@ FROM python:3
 
 COPY server.py /
 
-RUN pip install mysql.connector
+RUN pip install mysql-connector-python
 
 CMD [ "python", "./server.py" ]
