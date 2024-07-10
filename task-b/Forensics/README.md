@@ -4,11 +4,9 @@ Using steganography techniques, hide any text file (encode the text inside in an
 
 ### To use this
 first setup your environment
-> sudo apt-get install steghide
+> sudo apt-get install steghide imagemagick exiftool
 > 
-> sudo apt-get install exiftool
-> 
-> chmod -R 777 steganography
+> chmod -R 777 steganography.sh
 > 
 and run
 > ./steganography.sh
