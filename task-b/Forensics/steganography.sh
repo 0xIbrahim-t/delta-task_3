@@ -3,7 +3,7 @@
 echo "Hii, here you can set up the image for CTF challenge using steganography"
 PS3="Choose an option: "
 
-select choice_1 in "Erase the before content and add a new line in secret.txt" "Append a new line in secret.txt" "Move to the next step" "Exit"; do
+select choice_1 in "Retrieve the secret text file" "Erase the before content and add a new line in secret.txt" "Append a new line in secret.txt" "Move to the next step" "Exit"; do
         if [[ "$choice_1" = "Erase the before content and add a new line" ]]; then
                 read -p "Write a new line: " new_line
                 echo $new_line > secret.txt
@@ -17,10 +17,22 @@ select choice_1 in "Erase the before content and add a new line in secret.txt" "
 
         elif [[ "$choice_1" = "Exit" ]]; then
                 exit 0
+
+        elif [[ "$choice_1" = "Retrieve the secret text file" ]]; then
+                convert mystery.png mystery.jpeg
+                read -p "Enter a passphrase which can be used to retrieve the secret.txt: " pass_retrieve
+                steghide extract -sf mystery.jpg -p "$pass_retrieve"
+                convert mystery.jpeg mystery.png
         fi
 done
 
-steghide embed -cf mystery.png -ef secret.txt
+read -p "Enter a passphrase which can be used to retrieve the secret.txt: " pass
+
+convert mystery.png mystery.jpeg
+
+steghide embed -cf mystery.png -ef secret.txt -p "$pass"
+
+convert mystery.jpeg mystery.png
 
 read -p "Write the clues for the contestants to find some clues, which will be saved in the metadata under clue: " clues
 
