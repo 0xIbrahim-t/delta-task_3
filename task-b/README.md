@@ -1,4 +1,4 @@
-# Task-B
+# Task3-B
 
 
 CTF challenges are cybersecurity competitions that test participants’ skills in various areas. These challenges simulate real-world scenarios and require participants to solve puzzles, find vulnerabilities, and exploit systems to uncover hidden flags. Flags are unique hidden pieces of information that serve as proof of a successful exploit or solution. CTF challenges provide an engaging and hands-on learning experience in cybersecurity.
@@ -29,3 +29,5 @@ Write a simple Python script to implement RSA from scratch (crypto libraries are
 Take any input and encrypt and decrypt using your RSA implementation.
 Sign another input using your private key and verify using public key.
 You don't have to generate the prime numbers securely, you can use any prime numbers for your implementation.
+#### To run this
+> python3 RSA.py
