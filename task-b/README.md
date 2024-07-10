@@ -1,4 +1,4 @@
-# Task3-B
+# Task-B
 
 
 CTF challenges are cybersecurity competitions that test participants’ skills in various areas. These challenges simulate real-world scenarios and require participants to solve puzzles, find vulnerabilities, and exploit systems to uncover hidden flags. Flags are unique hidden pieces of information that serve as proof of a successful exploit or solution. CTF challenges provide an engaging and hands-on learning experience in cybersecurity.
