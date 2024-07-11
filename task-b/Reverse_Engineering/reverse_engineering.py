@@ -7,7 +7,7 @@ string = z3.String('string')
 solver = z3.Solver()
 
 def str_to_val(stri):
-    result = subprocess.run([f"./string_to_value {stri}"], capture_output=True, text=True)
+    result = subprocess.run(["./string_to_value", stri], capture_output=True, text=True)
     _result = result.stdout
     return int(_result.split(",")[0])
 
