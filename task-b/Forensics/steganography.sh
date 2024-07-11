@@ -28,15 +28,11 @@ done
 
 read -p "Enter a passphrase which can be used to retrieve the secret.txt: " pass
 
-convert mystery.png mystery.jpeg
+steghide embed -cf mystery.jpeg -ef secret.txt -p "$pass"
 
-steghide embed -cf mystery.png -ef secret.txt -p "$pass"
+read -p "Write the clues for the contestants to find some clues, which will be saved in the metadata under the tag Description: " clues
 
-convert mystery.jpeg mystery.png
-
-read -p "Write the clues for the contestants to find some clues, which will be saved in the metadata under clue: " clues
-
-exiftool -Clue="$clues" mystery.png
+exiftool -Description="$clues" mystery.png
 
 echo "CTF challenge created successully under mystery.png"
 
