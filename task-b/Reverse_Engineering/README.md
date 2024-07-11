@@ -6,6 +6,8 @@ Using Z3 solver, reverse the function and find the secret string to see the flag
 
 #### the hardcoded value is 1640 and the secret string is flag
 
+### to set up the environment
+> pip install z3-solver
 
 ### To get the hardcoded value which is in the string_to_value.c which is compiled to a binary file named string_to_value:
 > python3 reverse_engineering.py
