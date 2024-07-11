@@ -11,6 +11,11 @@ int string_to_value(char string[]){
 
 int main(int argc, char* argv[]){
     int flag_int = 1640;
-    printf("%d", string_to_value(argv[1]));
+    if (string_to_value(argv[1]) == flag_int) {
+        printf("%d, You have the found the flag", string_to_value(argv[1]));
+    }
+    else {
+        printf("%d", string_to_value(argv[1]));
+    }
     return 0;
 }
