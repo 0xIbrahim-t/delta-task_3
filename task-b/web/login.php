@@ -1,5 +1,5 @@
 <?php
-$con = mysqli_connect("localhost", "root", "", "users_db") or die("Connection Failed");
+$con = mysqli_connect("localhost", "root", "password", "users_db") or die("Connection Failed");
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
