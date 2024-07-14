@@ -1,8 +1,4 @@
-# Use the official PHP image with Apache
 FROM php:7.4-apache
-
-# Copy the current directory contents into the container at /var/www/html
-COPY . /var/www/html/
-
-# Expose port 80 to the host
+COPY login.php /var/www/html/
+COPY flag.php /var/www/html/
 EXPOSE 80
