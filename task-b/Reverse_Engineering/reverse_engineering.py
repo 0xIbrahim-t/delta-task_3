@@ -3,7 +3,7 @@ import z3
 
 hardcoded_value = 1640
 
-string = z3.String('string')
+chars = [BitVec(f'char_{i}', 8) for i in range(4)]
 solver = z3.Solver()
 
 def str_to_val(stri):
