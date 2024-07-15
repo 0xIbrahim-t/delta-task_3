@@ -4,7 +4,7 @@ Using Z3 solver, reverse the function and find the secret string to see the flag
 
 #### The string_to_value.c file has the functions which takes a string line in command line arguments and convert it to a certain value
 
-#### the hardcoded value is 1640 and the secret string is flag
+#### the hardcoded value is 1640, found from disassembling the binary file using gdb
 
 ### to set up the environment
 > pip install z3-solver
