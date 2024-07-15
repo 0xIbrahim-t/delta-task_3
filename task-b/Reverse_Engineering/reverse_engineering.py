@@ -3,19 +3,29 @@ import z3
 
 hardcoded_value = 1640
 
-chars = [BitVec(f'char_{i}', 8) for i in range(4)]
+chars = [z3.BitVec(f'char_{i}', 8) for i in range(4)]
 solver = z3.Solver()
 
-def str_to_val(stri):
-    result = subprocess.run(["./string_to_value", stri], capture_output=True, text=True)
-    _result = result.stdout
-    return int(_result.split(",")[0])
+def str_to_val(string):
+    result = subprocess.run(["./string_to_value", string], capture_output=True, text=True)
+    return int(result.stdout.split(",")[0])
 
-solver.add(str_to_val(string) == hardcoded_value)
+for char in chars:
+    solver.add(char >= 32, char <= 126)
 
-if solver.check() == z3.sat:
+tested_strings = set()
+
+while solver.check() == z3.sat:
     model = solver.model()
-    answer = model[string].as_string()
-    print(f"secret string found, string = '{answer}'")
+    candidate_string = ''.join([chr(model[char].as_long()) for char in chars])
+    
+    if candidate_string not in tested_strings:
+        tested_strings.add(candidate_string)
+    
+        if str_to_val(candidate_string) == hardcoded_value:
+            print(f"Secret string found: '{candidate_string}'")
+            solver.add(z3.Or([char != model[char] for char in chars]))
+        
+    solver.add(z3.Or([char != model[char] for char in chars]))
 else:
     print("No solution exists")
