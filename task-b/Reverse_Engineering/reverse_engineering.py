@@ -4,7 +4,6 @@ hardcoded_value = 99903
 len_of_word = 0
 
 while True:
-    print(len_of_word)
     if hardcoded_value % len_of_word != 0:
         continue
 
