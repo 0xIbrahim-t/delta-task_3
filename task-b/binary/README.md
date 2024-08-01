@@ -3,7 +3,6 @@ Using the dangerous gets function, create a buffer overflow vulnerability in a b
 Use C to create and compile the program, turn off all the protections for the binary.
 Create a Python script using the pwntools module to create a script that uses the vulnerability and fetches the flag.
 
-#### the hardcoded value is 1640, found from disassembling the binary file using gdb
 
 ### to set up the environment
 > pip install pwntools
