@@ -19,10 +19,8 @@ select choice_1 in "Retrieve the secret text file" "Erase the before content and
                 exit 0
 
         elif [[ "$choice_1" = "Retrieve the secret text file" ]]; then
-                convert mystery.png mystery.jpeg
                 read -p "Enter a passphrase which can be used to retrieve the secret.txt: " pass_retrieve
-                steghide extract -sf mystery.jpg -p "$pass_retrieve"
-                convert mystery.jpeg mystery.png
+                steghide extract -sf mystery.jpeg -p "$pass_retrieve"
         fi
 done
 
